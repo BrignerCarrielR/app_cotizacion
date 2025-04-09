@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+<h1>HOLA MUNDO</h1>
+<h2>Hora: {{ hora }}</h2>
+<p>{{ clientes }}</p>
+<table border="">
+	<tr>
+		<th>Nombre</th>
+		<th>Apellido</th>
+		<th>Edad</th>
+	</tr>
+	{% for i in clientes %}
+		<tr>
+			<td>{{ i.nombre }}</td>
+			<td>{{ i.apellido }} </td>
+			<td>{{ i.edad }}</td>
+		</tr>
+	{% endfor %}
+</table>
+</body>
+
+</html>
