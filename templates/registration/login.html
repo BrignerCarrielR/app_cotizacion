@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static tailwind_tags %}
+
+  <head>
+    {% tailwind_css %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      .fondo {
+        background-color: #5348C7;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <div class="flex justify-center items-center h-screen w-full">
+      <div class="flex h-96 w-[calc(100vh)] border rounded-lg">
+        <div class="w-2/4 fondo flex justify-center items-center">
+          <img class="h-60 w-60 rounded-lg shadow"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/LEGO_logo.svg/1200px-LEGO_logo.svg.png"
+            alt="">
+        </div>
+        <div class="w-2/4 p-5">
+          {% if form.errors %}
+          <p>Tu nombre de usuario y contraseña no coinciden. Por favor, inténtelo de nuevo.</p>
+          {% endif %}
+
+          {% if next %}
+          {% if user.is_authenticated %}
+          <p>Tu cuenta no tiene acceso a esta página. Para continuar,
+            Inicie sesión con una cuenta que tenga acceso.</p>
+          {% else %}
+          <p>Inicie sesión para ver esta página.</p>
+          {% endif %}
+          {% endif %}
+          <form class="mt-12" method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="flex flex-col">
+              <label class="text-xl font-bold text-indigo-500 opacity-60" for="">Nombre de Usuario</label>
+              <input class="border-b px-4 py-2" placeholder="Ingresa tu nombre de usuario" id="id_username"
+                name="username" type="text">
+            </div>
+            <div class="flex flex-col"">
+              <label class=" text-xl font-bold text-indigo-500 opacity-60" for="">Contraseña</label>
+              <input class=" border-b px-4 py-2" placeholder="Ingresa tu contraseña" id="id_password" name="password"
+                type="password">
+            </div>
+            <!-- <table>
+              <tr>
+                <td>{{ form.username.label_tag }}</td>
+                <td>{{ form.username }}</td>
+              </tr>
+              <tr>
+                <td>{{ form.password.label_tag }}</td>
+                <td>{{ form.password }}</td>
+              </tr>
+            </table> -->
+
+            <div class="flex justify-center mt-5">
+              <button type="submit" class="bg-indigo-500 text-white px-8 py-2 rounded">Entrar</button>
+            </div>
+            <input type="hidden" name="next" value="{{ next }}">
+          </form>
+          <p class="text-end mt-5 text-blue-500"><a href="{% url 'password_reset' %}">¿Has perdido tu contraseña?</a>
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </body>
+
+</html>
