@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from app.models import Cliente
-
 # Create your views here.
 
 import datetime
@@ -38,24 +37,68 @@ def clientes(request):
             correo = request.POST.get('correo')
             telefono = request.POST.get('telefono')
             direccion = request.POST.get('direccion')
-            
+
             if not nombre or not apellido or not correo or not telefono or not direccion: 
                 contexto ['mensaje'] = 'Ingresa todos los valores sin redundacia de codigo...'
                 return render(request, 'clientes/listado_clientes.html', contexto)
             
-            nuevo_cliente = Cliente()
-            nuevo_cliente.nombre = nombre
-            nuevo_cliente.apellidos = apellido
-            nuevo_cliente.correo = correo
-            nuevo_cliente.telefono = telefono
-            nuevo_cliente.direccion = direccion
-            nuevo_cliente.save()
+            id = request.POST.get('id', None)
+            try:
+                objeto_cliente = Cliente.objects.get(id=id)
+                # Actualiza los datos si el cliente existe
+                objeto_cliente.nombre = nombre
+                objeto_cliente.apellidos = apellido
+                objeto_cliente.correo = correo
+                objeto_cliente.telefono = telefono
+                objeto_cliente.direccion = direccion
+                objeto_cliente.save()
+            except Cliente.DoesNotExist:
+                # Crea un nuevo cliente si no existe
+                print('NO existe el cliente en base')
+                nuevo_cliente = Cliente()
+                nuevo_cliente.nombre = nombre
+                nuevo_cliente.apellidos = apellido
+                nuevo_cliente.correo = correo
+                nuevo_cliente.telefono = telefono
+                nuevo_cliente.direccion = direccion
+                nuevo_cliente.save()
+
             
             
-            return HttpResponse(f'El registro con el nombre{nuevo_cliente.nombre}, fue registrado con exito.')
+            return redirect('clientes')
             
         return render(request, 'clientes/listado_clientes.html', contexto)
     except Exception as e:
         print(e)
         return redirect('inicio')
+    
+def obtener_cliente(request, id):
+    try:
+        print(f'ID recibido: {id}')
+        cliente = Cliente.objects.get(id = id)
+        print(cliente)
 
+        cliente_serr = {
+            'id': cliente.id,
+            'nombre': cliente.nombre,
+            'apellidos': cliente.apellidos,
+            'correo': cliente.correo,
+            'telefono': cliente.telefono,
+            'direccion': cliente.direccion,
+        }
+        return JsonResponse({'mensaje': 'Recibido', 'cliente': cliente_serr})
+    except Exception as e:
+        print(f'Error: {e}')
+        return JsonResponse({'mensaje': f'Error: {str(e)}'})
+
+
+def eliminar_cliente(request, id):
+    try:
+        print(f'ID recibido: {id}')
+        cliente = Cliente.objects.get(id = id)
+        print(cliente)
+        cliente.delete()
+        return JsonResponse({'mensaje': f'El cliente {cliente.nombre} se ha eliminado con exito'})
+    except Exception as e:
+        print(f'Error: {e}')
+        return JsonResponse({'mensaje': f'Error: {str(e)}'})

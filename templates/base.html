@@ -1,215 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
-	{% load static tailwind_tags %}
+{% load static tailwind_tags %}
 
-	<head>
-		{% tailwind_css %}
-		<meta charset="UTF-8" />
-		<title>{{ titulo }}</title>
-		<style>
-			.bg_body {
-				background-color: #F1F2F6;
-			}
+<head>
+	{% tailwind_css %}
+	<meta charset="UTF-8" />
+	<title>{{ titulo }}</title>
+	<style>
+		.bg_body {
+			background-color: #F1F2F6;
+		}
 
-			.sidebar {
-				background-color: #5348C7;
-			}
+		.sidebar {
+			background-color: #5348C7;
+		}
 
-			.border_card {
-				background-color: #F2F7F9;
-			}
+		.border_card {
+			background-color: #F2F7F9;
+		}
 
-			.bg_greem {
-				background-color: #01E097;
-			}
+		.bg_greem {
+			background-color: #01E097;
+		}
 
-			.text_green {
-				color: #01E097;
-			}
+		.text_green {
+			color: #01E097;
+		}
 
-			.bg_greem:hover {
-				background-color: white;
-				border: 1px solid #01E097;
-				color: #01E097;
-			}
+		.bg_greem:hover {
+			background-color: white;
+			border: 1px solid #01E097;
+			color: #01E097;
+		}
 
-			.cerrar_session {
-				background-color: white;
-				color: #5348C7;
-			}
+		.cerrar_session {
+			background-color: white;
+			color: #5348C7;
+		}
 
-			.cerrar_session:hover {
-				background-color: #5348C7;
-				color: white;
-				border: 1px solid white;
-			}
-		</style>
-	</head>
+		.cerrar_session:hover {
+			background-color: #5348C7;
+			color: white;
+			border: 1px solid white;
+		}
+	</style>
+</head>
 
-	<body>
-		<div class="flex h-screen bg_body">
-			<!-- sidebar -->
-			{% include 'sidebar.html' %}
+<body>
+	<div class="flex h-screen bg_body">
+		<!-- sidebar -->
+		{% include 'sidebar.html' %}
 
-			<div class="w-full">
-				<!-- navbar -->
-				{% include 'navbar.html' %}
-				<!-- body -->
-				<div class="p-9 h-[calc(100vh-80px)]">
-					<div class="bg-white w-full h-full rounded-lg p-5">
-						<div class="flex items-center justify-between">
-							{% block contenido_head %}
-							<p class="text-2xl font-bold text-blue-900  opacity-60">Listado de Clientes</p>
-							<button onclick="crear_cliente()"
-								class="bg_greem px-4 py-2 border border-white rounded-lg flex items-center space-x-2 text-white font-bold">
-								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-									<path fill-rule="evenodd"
-										d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z"
-										clip-rule="evenodd" />
-								</svg>
-								<p>Agregar</p>
-							</button>
-							{% endblock %}
-						</div>
-						<div class="mt-8">
-							{% block contenido %}
-
-							{% endblock %}
-						</div>
-						{% if mensaje %}
-						<input id="id_mensaje" value="{{mensaje}}" hidden></input>
-						{%endif%}
+		<div class="w-full">
+			<!-- navbar -->
+			{% include 'navbar.html' %}
+			<!-- body -->
+			<div class="p-9 h-[calc(100vh-80px)]">
+				<div class="bg-white w-full h-full rounded-lg p-5">
+					<div class="flex items-center justify-between">
+						{% block contenido_head %}
+						<p class="text-2xl font-bold text-blue-900  opacity-60">Listado de Clientes</p>
+						<button onclick="crear()"
+							class="bg_greem px-4 py-2 border border-white rounded-lg flex items-center space-x-2 text-white font-bold">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+								class="size-6">
+								<path fill-rule="evenodd"
+									d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z"
+									clip-rule="evenodd" />
+							</svg>
+							<p>Agregar</p>
+						</button>
+						{% endblock %}
 					</div>
+					<div class="mt-8">
+						{% block contenido %}
+
+						{% endblock %}
+					</div>
+					{% if mensaje %}
+					<input id="id_mensaje" value="{{mensaje}}" hidden></input>
+					{%endif%}
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-		<script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="{% static 'js/general.js' %}"></script>
 
-			document.addEventListener('DOMContentLoaded', function () {
-				let mensaje = document.getElementById('id_mensaje')
-				console.log(mensaje)
-				if (mensaje) {
-					mostrar_alertas(mensaje.value)
+	{% block js %}
+
+	{% endblock %}
+
+	<script>
+		function crear_base(contenido_html, modulo) {
+			const contenido = `
+					<form id="crear_form" method="POST" enctype="multipart/form-data">
+						{% csrf_token %}
+						<div class="flex flex-col space-y-4">
+							${contenido_html}
+						</div>
+					</form>
+				`;
+			Swal.fire({
+				title: `<strong>Crear ${modulo}</strong>`,
+				html: contenido,
+				confirmButtonText: 'Guardar',
+				cancelButtonText: 'Cancelar', // Cambia aquí el texto
+				showCancelButton: true, // Asegúrate de activar el botón cancelar
+			}).then((result) => {
+				if (result.isConfirmed) {
+					let formulario = document.getElementById('crear_form')
+					formulario.submit()
+				} else if (result.dismiss === Swal.DismissReason.cancel) {
+					console.log('Se canceló');
 				}
 			});
+		}
 
 
-			function mostrar_alertas(mensaje) {
-				let contenido = mensaje
-				Swal.fire({
-					title: 'Aviso!',
-					html: contenido,
-					icon: 'warning',
-					confirmButtonText: 'OK',
-				})
-			}
-
-
-			function crear_cliente() {
-				console.log('Estas dentro')
-				const contenido = `
-				<form id="crear_cliente_form" method="POST" enctype="multipart/form-data">
+		function editar_base(contenido_html, modulo) {
+			console.log('Estas dentro')
+			const contenido = `
+						<form id="editar_form" method="POST" enctype="multipart/form-data">
 							{% csrf_token %}
-								<div class="flex flex-col space-y-4">
-									<div class="flex flex-col">
-										<label for="nombre" class="text-left font-semibold opacity-60">Nombre:</label>
-										<input class="border border-gray-200 rounded-lg py-1 px-2" type="text" name="nombre" id="nombre"
-											placeholder="Ej: PROMO10">
-									</div>
-									<div class="flex flex-col">
-										<label for="apellido" class="text-left  font-semibold opacity-60">Apellido:</label>
-										<input class="border border-gray-200 rounded-lg py-1 px-2" type="text" name="apellido" id="apellido"
-											placeholder="Ej: PROMO10">
-									</div>
-									<div class="flex flex-col">
-										<label for="correo" class="text-left  font-semibold opacity-60">Correo:</label>
-										<input class="border border-gray-200 rounded-lg py-1 px-2" type="text" name="correo" id="correo"
-											placeholder="Ej: PROMO10">
-									</div>
-									<div class="flex flex-col">
-										<label for="telefono" class="text-left  font-semibold opacity-60">Telefono:</label>
-										<input class="border border-gray-200 rounded-lg py-1 px-2" type="text" name="telefono" id="telefono"
-											placeholder="Ej: 0987654321">
-									</div>
-									<div class="flex flex-col">
-										<label for="telefono" class="text-left  font-semibold opacity-60">Dirección:</label>
-										<input class="border border-gray-200 rounded-lg py-1 px-2" type="text" name="direccion" id="telefono"
-											placeholder="Ej: 0987654321">
-									</div>
-								</div>
-					</form>
-    `;
-				Swal.fire({
-					title: '<strong>Formulario</strong>',
-					html: contenido,
-					confirmButtonText: 'Guardar',
-					cancelButtonText: 'Cancelar', // Cambia aquí el texto
-					showCancelButton: true, // Asegúrate de activar el botón cancelar
-				})
-					.then((result) => {
-						if (result.isConfirmed) {
-							// Acción si el usuario hace clic en "Guardar"
-							console.log('El usuario confirmó');
-							let formulario = document.getElementById('crear_cliente_form')
-							formulario.submit()
-						} else if (result.dismiss === Swal.DismissReason.cancel) {
-							// Acción si el usuario hace clic en "Cancelar"
-							console.log('El usuario canceló');
-						}
-					});
-			}
-
-			function eliminar_cliente(nombre) {
-				let contenido = `Deseas eliminar al cliente ${nombre}?`
-				Swal.fire({
-					title: 'Aviso!',
-					html: contenido,
-					icon: 'info',
-					confirmButtonText: 'Si',
-					cancelButtonText: 'No', // Cambia aquí el texto
-					showCancelButton: true,
-				})
-			}
-
-			function editar_cliente() {
-				console.log('Estas dentro')
-				const contenido = `
-				<form id="crear_cliente_form" method="POST" enctype="multipart/form-data">
-								<div class="flex flex-col space-y-4">
-									<div class="flex flex-col">
-										<label for="nombre" class="text-left font-semibold opacity-60">Nombre:</label>
-										<input class="border border-gray-200 rounded-lg py-1 px-2" type="text" name="nombre" id="nombre"
-											placeholder="Ej: PROMO10">
-									</div>
-									<div class="flex flex-col">
-										<label for="apellido" class="text-left  font-semibold opacity-60">Apellido:</label>
-										<input class="border border-gray-200 rounded-lg py-1 px-2" type="text" name="apellido" id="apellido"
-											placeholder="Ej: PROMO10">
-									</div>
-									<div class="flex flex-col">
-										<label for="correo" class="text-left  font-semibold opacity-60">Correo:</label>
-										<input class="border border-gray-200 rounded-lg py-1 px-2" type="text" name="correo" id="correo"
-											placeholder="Ej: PROMO10">
-									</div>
-									<div class="flex flex-col">
-										<label for="telefono" class="text-left  font-semibold opacity-60">Telefono:</label>
-										<input class="border border-gray-200 rounded-lg py-1 px-2" type="text" name="telefono" id="telefono"
-											placeholder="Ej: 0987654321">
-									</div>
-								</div>
-							</form>
-    `;
-				Swal.fire({
-					title: '<strong>Formulario</strong>',
-					html: contenido,
-					confirmButtonText: 'Guardar',
-					cancelButtonText: 'Cancelar', // Cambia aquí el texto
-					showCancelButton: true, // Asegúrate de activar el botón cancelar
-				});
-			}
-		</script>
-	</body>
+							<div class="flex flex-col space-y-4">
+								${contenido_html}
+							</div>
+						</form>
+					`;
+			Swal.fire({
+				title: `<strong>Editar ${modulo}</strong>`,
+				html: contenido,
+				confirmButtonText: 'Guardar',
+				cancelButtonText: 'Cancelar', // Cambia aquí el texto
+				showCancelButton: true, // Asegúrate de activar el botón cancelar
+			}).then((result) => {
+				if (result.isConfirmed) {
+					let formulario = document.getElementById('editar_form')
+					formulario.submit()
+				} else if (result.dismiss === Swal.DismissReason.cancel) {
+					console.log('Se canceló');
+				}
+			});
+		}
+	</script>
+</body>
 
 </html>
